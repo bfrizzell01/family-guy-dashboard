@@ -1,0 +1,67 @@
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+To clean the dataset for use in our dashbaord, we need to make the following alterations:
+
+-   Drop unnecessary columns: we will only use `Season`, `No. of Episode (Season)`, `No. of Episode (Overall)` , `Title of the Episode`, `Featuring`, `Also Appearing`, `IMDb Rating` , and `Synopsys`.
+
+-   Rename columns to `snake_case` format
+
+-   Join `Featuring` and `Also Appearing` columns into one column called `characters`, containing all appearing characters in the episode
+
+-   Make new table called `character_appearances` containing all unique characters and their appearances. Modify names for consistency if necessary (eg. change occurences of 'Peter' to 'Peter Griffin' to avoid discrepancies.)
+
+```{r}
+# lood in data
+family_guy_data <- read_csv('../data/raw/family_guy_dataset.csv')
+```
+
+```{r}
+# select and rename columns
+family_guy_data <- family_guy_data |> 
+  select(`No. of Episode (Overall)`,Season, 
+         `No. of Episode (Season)`,`Title of the Episode`,
+         Featuring,`Also Appearing`,`IMDb Rating`,Synopsys) |> 
+  clean_names() |> 
+  rename(id = no_of_episode_overall,
+         title = title_of_the_episode,
+         imdb_rating = im_db_rating,
+         synopsis = synopsys)
+```
+
+```{r}
+# make new character_appearance dataframe
+char_appearance <- family_guy_data |> 
+  mutate(characters = str_c(featuring,also_appearing,sep=', ')) |> 
+  select(id,characters)
+
+# drop character cols from main dataframe
+family_guy_data <- family_guy_data |> select(-featuring,-also_appearing)
+```
+
+```{r}
+# replace first name main character occurances witb full name, for consistency
+char_appearance <- char_appearance |> 
+mutate(characters = characters |> 
+    str_replace_all("\\bPeter(?! Griffin)\\b", "Peter Griffin") |> 
+    str_replace_all("\\bLois(?! Griffin)\\b", "Lois Griffin") |> 
+    str_replace_all("\\bStewie(?! Griffin)\\b", "Stewie Griffin") |> 
+    str_replace_all("\\bMeg(?! Griffin)\\b", "Meg Griffin") |> 
+    str_replace_all("\\bChris(?! Griffin)\\b", "Chris Griffin") |> 
+    str_replace_all("\\bBrian(?! Griffin)\\b", "Brian Griffin") |> 
+    str_replace_all("\\bJoe(?! Swanson)\\b", "Joe Swanson") |> 
+    str_replace_all("\\bCleveland(?! Brown)\\b", "Cleveland Brown"))
+```
+
+```{r}
+# split character strings into individual characters, and unneest
+char_appearance <-  char_appearance |> 
+  mutate(characters = str_split(characters,', ')) |> unnest(cols = characters)
+```
+
+```{r}
+# write to dataframe
+write_csv
+```
