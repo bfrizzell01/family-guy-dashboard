@@ -7,6 +7,11 @@ favourite episodes by filtering by season, ratings, and featured character
 appearances. When the user selects their preferences, the table will show all
 episodes that meet their criteria, with a brief synopsis. Freakin' sweet!
 
+This dashbard uses the [Family Guy Episode Info](https://www.kaggle.com/datasets/zeesolver/family) 
+dataset obtained from Kaggle. It contains data on 400 Family Guy episodes,
+including the season and episode number featured characters, writers, IMDB ratings,
+viewer counts, and a synopsis.
+
 # App Demo
 
 # Instructions
