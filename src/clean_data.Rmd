@@ -63,5 +63,6 @@ char_appearance <-  char_appearance |>
 
 ```{r}
 # write to dataframe
-write_csv
+write_csv(family_guy_data,'../data/clean/episodes.csv')
+write_csv(char_appearance,'../data/clean/characters.csv')
 ```
