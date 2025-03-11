@@ -15,3 +15,6 @@ viewer counts, and a synopsis.
 # App Demo
 
 # Instructions
+
+
+![](img/family-guy-happy-dance.gif)
