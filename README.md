@@ -15,7 +15,24 @@ viewer counts, and a synopsis.
 
 # App Demo
 
-# Instructions
+# Installation and Usage
 
+1. Clone this repository by copying this command into your terminal:
+```bash
+git clone git@github.com:bfrizzell01/family-guy-dashboard.git
+```
+2. Open up an R console and install the `renv` package if you don't already have it installed:
+```r
+install.packages("renv")
+```
+3. Set the root directory of this repo as your working directory, and install the necessary deependencies for the dashboard:
+   ```r
+   renv::restore()
+   ```
+4. Execute the following command in your R console to run the app:
+```r
+shiny::runApp("src/app.R")
+```
+5. Copy the URL into your browser to view the dashboard:
 
 ![](img/family-guy-happy-dance.gif)
