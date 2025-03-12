@@ -1,6 +1,6 @@
 library(shiny)
 library(ggplot2)
-library(tidyr)
+library(tidyverse)
 library(bslib)
 
 options(shiny.port = 8050, shiny.autoreload = TRUE)
@@ -29,7 +29,8 @@ ratings_map <- function(min_season,max_season,min_rating,max_rating) {
 # get table filtered by season,rating, and selected characters
 filter_table <- function(min_season,max_season,
                          min_rating,max_rating,
-                         selected_characters){
+                         selected_characters,
+                         sort_option){
   
   # if no selected characters, don't filter for characters
   if (all(selected_characters == '')){
@@ -37,14 +38,12 @@ filter_table <- function(min_season,max_season,
       filter(
         between(season, min_season,max_season),
         between(imdb_rating,min_rating,max_rating)) |> 
-      select(imdb_rating,season,no_of_episode_season,title,synopsis) |> 
+      select(imdb_rating,season,no_of_episode_season,title) |> 
       rename(
         Rating = imdb_rating,
         Season = season, 
         Episode = no_of_episode_season,
-        Title = title,
-        Synopsis = synopsis) |> 
-      arrange(Season,Episode)
+        Title = title)
   }
   else {
     
@@ -60,19 +59,27 @@ filter_table <- function(min_season,max_season,
         id %in% ep_ids_with_characters,
         between(season, min_season,max_season),
         between(imdb_rating,min_rating,max_rating)) |> 
-      select(imdb_rating,season,no_of_episode_season,title,synopsis) |> 
+      select(imdb_rating,season,no_of_episode_season,title) |> 
       rename(
         Rating = imdb_rating,
         Season = season, 
         Episode = no_of_episode_season,
-        Title = title,
-        Synopsis = synopsis) |> 
-      arrange(Season,Episode)
-    
+        Title = title) 
   }
   
+  # format episode and season
   filtered_episodes$Episode <- formatC(filtered_episodes$Episode, digits = 2)
   filtered_episodes$Season <- formatC(filtered_episodes$Season, digits = 2)
+  
+  # sort by option
+  if (sort_option == 'Rating (Best to Worst)'){
+    filtered_episodes <- filtered_episodes |> arrange(desc(Rating))
+    
+  } else if (sort_option == 'Rating (Worst to Best)') {
+    filtered_episodes <- filtered_episodes |> arrange(Rating)
+  } else {
+    filtered_episodes <- filtered_episodes |> arrange(Season,Episode)
+  }
   
   return(filtered_episodes)
 }
@@ -109,6 +116,15 @@ ui <- page_fluid(
       placeholder = 'Select Character'
       )
     ),
+  selectizeInput(
+    "sorting_selection",
+    "",
+    choices = c('','Season','Rating (Best to Worst)','Rating (Worst to Best)'),
+    multi = FALSE,
+    options = list(
+      placeholder = 'Sort By'
+    )
+  ),
   
     # ratings plot
     plotOutput("ratings_plot", width = "400px"),
@@ -138,14 +154,13 @@ server <- function(input, output, session) {
   # render episodes table
   output$table <- renderTable(
     filter_table(
-      input$season_slider[1],input$season_slider[2],
-      input$ratings_slider[1],input$ratings_slider[2],
-      input$character_selection
+      input$season_slider[1], input$season_slider[2],
+      input$ratings_slider[1], input$ratings_slider[2],
+      input$character_selection,
+      input$sorting_selection
     ),
-    digits = 1,
-    spacing = 'xs'
+    digits = 1
   )
-  
   
 }
   
