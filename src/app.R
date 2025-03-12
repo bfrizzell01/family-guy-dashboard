@@ -18,12 +18,11 @@ ratings_map <- function(min_season,max_season,min_rating,max_rating) {
     ggplot(aes(x=season,y=no_of_episode_season,fill = imdb_rating)) +
     geom_tile() + 
     scale_fill_gradient(low = "red", high = "blue",limit=c(4.1,9.1)) + 
-    labs(title = "Average Ratings", y = "Episode", x = "Season",fill='Rating') + 
+    labs(y = "Episode", x = "Season",fill='Rating') + 
     scale_x_continuous(breaks = seq(min_season, max_season,1)) +
-    scale_y_continuous(breaks=0:30,limits = c(0,31)) + 
-    theme(plot.title = element_text(hjust = 0.5))
+    scale_y_continuous(breaks=0:30,limits = c(0,31)) 
   
-  return(plot)
+    return(plot)
 }
 
 # get table filtered by season,rating, and selected characters
@@ -84,54 +83,65 @@ filter_table <- function(min_season,max_season,
   return(filtered_episodes)
 }
 
+# card component for settings
+settings_card <- card(
+  card_header('Settings'),
+  card_body(
+    sliderInput(
+      "season_slider", 
+      "Season", 
+      min = 1, max = 21, 
+      value = c(1,21),
+      step = 1,
+      ticks = FALSE
+    ),
+    
+    sliderInput(
+      "ratings_slider", 
+      "IMDb Rating", 
+      min = 4.0, max = 9.5, 
+      value = c(4.0,9.5),
+      step = 0.1,
+      ticks = FALSE
+    ),
+    
+    selectizeInput(
+      "character_selection",
+      "",
+      choices = NULL,
+      multi=TRUE,
+      options = list(placeholder = 'Select Character')
+    ),
+    selectizeInput(
+      "sorting_selection",
+      "",
+      choices = c('','Season','Rating (Best to Worst)','Rating (Worst to Best)'),
+      multi = FALSE,
+      options = list(placeholder = 'Sort By')
+    )
+  )
+)
+
+# card component for ratings heatmap
+heatmap_card <- card(
+  card_header('IMDb Ratings'),
+  plotOutput("ratings_plot")
+)
+
+
+# card component for table
+table_card <- card(
+  card_header('Episodes'),
+  tableOutput('table')
+)
 
 # page layout
-ui <- page_fluid(
+ui <- fluidPage(
   theme = bs_theme(),
   
-  # season slider
-  sliderInput("season_slider", 
-              "Season", 
-              min = 1, max = 21, 
-              value = c(1,21),
-              step = 1,
-              ticks = FALSE),
-  
-  # ratings slider
-  sliderInput("ratings_slider", 
-              "IMDb Rating", 
-              min = 4.0, max = 9.5, 
-              value = c(4.0,9.5),
-              step = 0.1,
-              ticks = FALSE),
-  
-  
-  # character search dropdown
-  selectizeInput(
-    "character_selection",
-    "",
-    choices = NULL,
-    multi=TRUE,
-    options = list(
-      placeholder = 'Select Character'
-      )
-    ),
-  selectizeInput(
-    "sorting_selection",
-    "",
-    choices = c('','Season','Rating (Best to Worst)','Rating (Worst to Best)'),
-    multi = FALSE,
-    options = list(
-      placeholder = 'Sort By'
-    )
-  ),
-  
-    # ratings plot
-    plotOutput("ratings_plot", width = "400px"),
-  
-    # table
-    tableOutput('table')
-
+  heatmap_card,
+  settings_card,
+  table_card
 )
 
 
@@ -148,8 +158,8 @@ server <- function(input, output, session) {
     ratings_map(
       input$season_slider[1],input$season_slider[2],
       input$ratings_slider[1],input$ratings_slider[2]
-      )
     )
+  )
   
   # render episodes table
   output$table <- renderTable(
@@ -163,6 +173,6 @@ server <- function(input, output, session) {
   )
   
 }
-  
+
 
 shinyApp(ui, server)
