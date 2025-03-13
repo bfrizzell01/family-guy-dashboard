@@ -95,14 +95,14 @@ settings_card <- card(
         widths = c(6, 6),  # Equal width for dropdowns
         selectizeInput(
           "character_selection",
-          "Character",
+          "",
           choices = NULL,
           multi=TRUE,
           options = list(placeholder = 'Select Character')
         ),
         selectizeInput(
           "sorting_selection",
-          "Sort By",
+          "",
           choices = c('','Season','Rating (Best to Worst)','Rating (Worst to Best)'),
           multi = FALSE,
           options = list(placeholder = 'Sort Table By:')
@@ -153,8 +153,11 @@ table_card <- card(
 
 # page layout
 ui <- fluidPage(
-  theme = bs_theme(),
-  titlePanel('A Freakin\' Sweet Family Guy Dashboard!'),
+  theme = bs_theme(bootswatch = "minty"),
+  div(
+    style = "background-color: #80c4ac; padding: 10px; color: white; font-weight: bold;",
+    h2("The Freakin\' Sweet Family Guy Dashboard!")
+  ),
   
   layout_column_wrap(
     width = 1/2,
@@ -162,7 +165,7 @@ ui <- fluidPage(
     layout_column_wrap(
       width = 1,
       heights_equal = "row",
-      heatmap_card,settings_card
+      settings_card,heatmap_card
     )
   )
 
