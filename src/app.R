@@ -87,40 +87,53 @@ filter_table <- function(min_season,max_season,
 settings_card <- card(
   card_header('Settings'),
   card_body(
-    sliderInput(
-      "season_slider", 
-      "Season", 
-      min = 1, max = 21, 
-      value = c(1,21),
-      step = 1,
-      ticks = FALSE
-    ),
+    layout_column_wrap(
+      width = 1,
+      gap = "5px",
+      # Dropdowns on top
+      layout_columns(
+        widths = c(6, 6),  # Equal width for dropdowns
+        selectizeInput(
+          "character_selection",
+          "Character",
+          choices = NULL,
+          multi=TRUE,
+          options = list(placeholder = 'Select Character')
+        ),
+        selectizeInput(
+          "sorting_selection",
+          "Sort By",
+          choices = c('','Season','Rating (Best to Worst)','Rating (Worst to Best)'),
+          multi = FALSE,
+          options = list(placeholder = 'Sort Table By:')
+        )
+      ),
+      
+      # Sliders on bottom
+      layout_columns(
+        widths = c(6, 6),  # Equal width for both sliders
+        sliderInput(
+          "season_slider", 
+          "Season", 
+          min = 1, max = 21, 
+          value = c(1,21),
+          step = 1,
+          ticks = FALSE
+        ),
+        sliderInput(
+          "ratings_slider", 
+          "IMDb Rating", 
+          min = 4.0, max = 9.5, 
+          value = c(4.0,9.5),
+          step = 0.1,
+          ticks = FALSE
+        )
+      )
     
-    sliderInput(
-      "ratings_slider", 
-      "IMDb Rating", 
-      min = 4.0, max = 9.5, 
-      value = c(4.0,9.5),
-      step = 0.1,
-      ticks = FALSE
-    ),
-    
-    selectizeInput(
-      "character_selection",
-      "",
-      choices = NULL,
-      multi=TRUE,
-      options = list(placeholder = 'Select Character')
-    ),
-    selectizeInput(
-      "sorting_selection",
-      "",
-      choices = c('','Season','Rating (Best to Worst)','Rating (Worst to Best)'),
-      multi = FALSE,
-      options = list(placeholder = 'Sort By')
     )
   )
 )
+
 
 # card component for ratings heatmap
 heatmap_card <- card(
@@ -132,16 +145,27 @@ heatmap_card <- card(
 # card component for table
 table_card <- card(
   card_header('Episodes'),
-  tableOutput('table')
+  div(
+    style = "overflow-y: auto; height: 800px;",  # Set height and enable scrolling
+    tableOutput('table')
+  )
 )
 
 # page layout
 ui <- fluidPage(
   theme = bs_theme(),
+  titlePanel('A Freakin\' Sweet Family Guy Dashboard!'),
   
-  heatmap_card,
-  settings_card,
-  table_card
+  layout_column_wrap(
+    width = 1/2,
+    table_card,
+    layout_column_wrap(
+      width = 1,
+      heights_equal = "row",
+      heatmap_card,settings_card
+    )
+  )
+
 )
 
 
