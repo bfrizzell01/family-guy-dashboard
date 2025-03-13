@@ -42,4 +42,8 @@ shiny::runApp("src/app.R")
 
 5. Copy the URL into your browser to view the dashboard:
 
+```
+http://127.0.0.1:8050/
+```
+
 ![](img/family-guy-happy-dance.gif)
