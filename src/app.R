@@ -89,7 +89,7 @@ settings_card <- card(
   card_body(
     layout_column_wrap(
       width = 1,
-      gap = "5px",
+      gap = "2px",
       # Dropdowns on top
       layout_columns(
         widths = c(6, 6),  # Equal width for dropdowns
