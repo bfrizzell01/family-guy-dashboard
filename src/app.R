@@ -89,7 +89,7 @@ settings_card <- card(
   card_body(
     layout_column_wrap(
       width = 1,
-      gap = "2px",
+      gap = "0px",
       # Dropdowns on top
       layout_columns(
         widths = c(6, 6),  # Equal width for dropdowns
@@ -107,8 +107,9 @@ settings_card <- card(
           multi = FALSE,
           options = list(placeholder = 'Sort Table By:')
         )
-      ),
+      )
       
+    ),
       # Sliders on bottom
       layout_columns(
         widths = c(6, 6),  # Equal width for both sliders
@@ -129,8 +130,6 @@ settings_card <- card(
           ticks = FALSE
         )
       )
-    
-    )
   )
 )
 
@@ -155,15 +154,18 @@ table_card <- card(
 ui <- fluidPage(
   theme = bs_theme(bootswatch = "minty"),
   div(
-    style = "background-color: #80c4ac; padding: 10px; color: white; font-weight: bold;",
+    style = "background-color: #80c4ac; padding: 5px; color: white; font-weight: bold; 
+             border: 2px solid white; border-radius: 10px; margin-bottom: 5px;",
     h2("The Freakin\' Sweet Family Guy Dashboard!")
   ),
   
   layout_column_wrap(
     width = 1/2,
+    gap = "10px",
     table_card,
     layout_column_wrap(
       width = 1,
+      gap = "10px",
       heights_equal = "row",
       settings_card,heatmap_card
     )
