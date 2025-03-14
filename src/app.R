@@ -98,7 +98,7 @@ settings_card <- card(
           "",
           choices = NULL,
           multi=TRUE,
-          options = list(placeholder = 'Select Character')
+          options = list(placeholder = 'Search Characters',maxOptions = 5)
         ),
         selectizeInput(
           "sorting_selection",
