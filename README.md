@@ -32,6 +32,7 @@ git clone git@github.com:bfrizzell01/family-guy-dashboard.git
 ```r
 install.packages("renv")
 ```
+
 3. Set the root directory of this repo as your working directory, and install the necessary deependencies for the dashboard:
 
 ```r
