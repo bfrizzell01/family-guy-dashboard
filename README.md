@@ -13,9 +13,13 @@ dataset obtained from Kaggle. It contains data on 400 Family Guy episodes,
 including the season and episode number featured characters, writers, IMDB ratings,
 viewer counts, and a synopsis.
 
-# App Demo
+# View the App
+
+The app can be viewed [here.](https://connect.posit.cloud/bfrizzell01/content/019596dd-edc3-c272-7263-8a2388c1466f)
 
 # Installation and Usage
+
+Alternatively, you can download this repository and run the app locally. To do so:
 
 1. Clone this repository by copying this command into your terminal:
 
@@ -34,13 +38,13 @@ install.packages("renv")
 renv::restore()
 ```
 
-4. Execute the following command in your R console to run the app:
+4. Execute the following command in your R console to run the app. This will open a panel to view the app:
 
 ```r
 shiny::runApp("src/app.R")
 ```
 
-5. Copy the URL into your browser to view the dashboard:
+To view the app in your browswer, copy the URL into your browser to view the dashboard:
 
 ```
 http://127.0.0.1:8050/
