@@ -5,7 +5,7 @@ over 430 episodes. This makes it very hard for fans to easily find their favouri
 episodes. This dashboard addresses this problem by allowing fans to find their
 favourite episodes by filtering by season, ratings, and featured character
 appearances. When the user selects their preferences, the table will show all
-episodes that meet their criteria, with a brief synopsis. They can also see an interactive heatmap of
+episodes that meet their criteria. They can also see an interactive heatmap of
 ratings, so they hone in and watch the best episodes. Freakin' sweet!
 
 This dashbard uses the [Family Guy Episode Info](https://www.kaggle.com/datasets/zeesolver/family) 
