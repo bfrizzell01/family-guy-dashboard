@@ -33,10 +33,11 @@ git clone git@github.com:bfrizzell01/family-guy-dashboard.git
 install.packages("renv")
 ```
 
-3. Set the root directory of this repo as your working directory, and install the necessary deependencies for the dashboard:
+3. Set the root directory of this repo as your working directory, install the necessary deependencies for the dashboard, and then activate the environment:
 
 ```r
 renv::restore()
+renv::activate()
 ```
 
 4. Execute the following command in your R console to run the app. This will open a panel to view the app:
