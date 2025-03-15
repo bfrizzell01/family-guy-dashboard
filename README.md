@@ -2,11 +2,11 @@
 
 Family Guy is a very popular and successful TV Show, spanning 23 seasons and
 over 430 episodes. This makes it very hard for fans to easily find their favourite 
-episodes. This dashboard addresses this problem by allowing fans to find their
-favourite episodes by filtering by season, ratings, and featured character
-appearances. When the user selects their preferences, the table will show all
-episodes that meet their criteria. They can also see an interactive heatmap of
-ratings, so they hone in and watch the best episodes. Freakin' sweet!
+episodes. This dashboard addresses this problem by allowing fans to search for
+episodes by season, ratings, and featured character appearances.
+When the user selects their preferences, the table will show all
+episodes that meet their criteria, Paired with an interactive heatmap of
+ratings, so they can see where the show peaked and fell in success across its lifetime. Freakin' sweet!
 
 This dashbard uses the [Family Guy Episode Info](https://www.kaggle.com/datasets/zeesolver/family) 
 dataset obtained from Kaggle. It contains data on 400 Family Guy episodes,
